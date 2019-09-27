@@ -34,14 +34,14 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="25"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="PreviousButton" Grid.Column="0" Margin="1" Click="PreviousButtonClick"/>
-                <Button x:Name="PlayButton" Grid.Column="1" Margin="1" Click="OnPlayButtonClick"/>
-                <Button x:Name="NextButton" Grid.Column="2" Margin="1" Click="NextButtonClick"/>
+                <Button x:Name="PreviousButton" Grid.Column="0" Margin="1" Click="PreviousButtonClick" Content="S" ToolTip="Stop"/>
+                <Button x:Name="PlayButton" Grid.Column="1" Margin="1" Click="OnPlayButtonClick" Content="Play" ToolTip="Play/Pause"/>
+                <Button x:Name="NextButton" Grid.Column="2" Margin="1" Click="NextButtonClick" Content="S" ToolTip="Stop"/>
                 <custom:ClickableProgressBar Grid.Column="3" x:Name="VolumeProgress" Minimum="0" Maximum="1" Value=".75" Margin="1 8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                <Button x:Name="ShuffleButton" Grid.Column="4" Margin="1" Click="ShuffleButtonClick"/>
+                <Button x:Name="ShuffleButton" Grid.Column="4" Margin="1" Click="ShuffleButtonClick" Content="L" ToolTip="Debug Information"/>
                 <Button x:Name="RepeatButton" Grid.Column="5" Margin="1"/>
                 <TextBlock x:Name="TitleTextBlock" Grid.Column="6" Margin="1">D:\media\music\Dragonette - Merry Xmas (Says Your Text Message) [Explicit] - Copie\01 - Merry Xmas (Says Your Text Message) [Explicit] - Copie.mp3</TextBlock>
-                <Button x:Name="OpenFileButton" Grid.Column="7" Margin="1" Click="OnOpenFileButtonClick" />
+                <Button x:Name="OpenFileButton" Grid.Column="7" Margin="1" Click="OnOpenFileButtonClick" Content="..." ToolTip="Open File" />
             </Grid>
 
         </Grid>

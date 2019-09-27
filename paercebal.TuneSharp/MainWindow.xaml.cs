@@ -27,24 +27,14 @@ namespace paercebal.TuneSharp
     [ValueConversion(typeof(TimeSpan), typeof(double))]
     public class TimeSpanToMilliSecondsConverter : IValueConverter
     {
-        public static double Convert(TimeSpan value)
-        {
-            return ((double)value.Ticks) / ((double)TimeSpan.TicksPerMillisecond);
-        }
-
-        public static TimeSpan Convert(double value)
-        {
-            return new TimeSpan((long)(value * TimeSpan.TicksPerMillisecond));
-        }
-
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return Convert((TimeSpan)value);
+            return ((TimeSpan)value).TotalMilliseconds;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return Convert((double)value);
+            return TimeSpan.FromMilliseconds((double)value);
         }
     }
 
@@ -98,16 +88,20 @@ namespace paercebal.TuneSharp
             if (this.mediaPlayerState == MediaPlayerState.Playing)
             {
                 var position = this.mediaPlayer.Position;
-                var value = TimeSpanToMilliSecondsConverter.Convert(position);
+                var value = position.TotalMilliseconds;
                 this.MusicProgress.Value = value;
-                this.Log("MainWindow.Tick", "{0}s -> {1}s", position, value);
+                this.Log("MainWindow.Tick", "{0}s -> {1}s"
+                    , position
+                    , value);
             }
         }
 
         private void MusicProgress_OnValueManuallyChanged(double oldValue, double newValue)
         {
-            this.mediaPlayer.Position = TimeSpanToMilliSecondsConverter.Convert(newValue);
-            this.Log("MainWindow.OnValueManuallyChanged", "{0}s -> {1}s", oldValue, newValue);
+            this.mediaPlayer.Position = TimeSpan.FromMilliseconds(newValue);
+            this.Log("MainWindow.OnValueManuallyChanged", "{0}s -> {1}s"
+                , oldValue
+                , newValue);
         }
 
         #region Interfaces.IDebugOutputable
@@ -120,7 +114,9 @@ namespace paercebal.TuneSharp
 
             foreach (var kv in this.logs)
             {
-                log += string.Format("{0}: {1}\n", kv.Key, kv.Value);
+                log += string.Format("{0}: {1}\n"
+                    , kv.Key
+                    , kv.Value);
             }
 
             this.DebugTextBox.Text = log;
@@ -143,8 +139,10 @@ namespace paercebal.TuneSharp
         private void MediaPlayer_MediaOpened(object sender, EventArgs e)
         {
             this.MusicProgress.Minimum = 0;
-            this.MusicProgress.Maximum = TimeSpanToMilliSecondsConverter.Convert(this.mediaPlayer.NaturalDuration.TimeSpan);
-            this.Log("MainWindow.MediaOpened", "{0}s - {1}s", this.MusicProgress.Minimum, this.MusicProgress.Maximum);
+            this.MusicProgress.Maximum = this.mediaPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
+            this.Log("MainWindow.MediaOpened", "{0}s - {1}s"
+                , this.MusicProgress.Minimum
+                , this.MusicProgress.Maximum);
 
             this.mediaPlayer.Play();
             this.mediaPlayerState = MediaPlayerState.Playing;
@@ -217,15 +215,15 @@ namespace paercebal.TuneSharp
         {
             this.mediaPlayer.Stop();
             this.mediaPlayerState = MediaPlayerState.Stopped;
-
-            //this.mediaPlayer.Volume
-            //this.VolumeProgress.Value
         }
 
         private void ShuffleButtonClick(object sender, RoutedEventArgs e)
         {
-            var p = this.mediaPlayer.Position;
-            this.Log("MainWindow.Shuffle", "Position: {0} [{1} > {2}|{3} > {4}]", p, this.MusicProgress.Minimum, TimeSpanToMilliSecondsConverter.Convert(p), this.MusicProgress.Value, this.MusicProgress.Maximum);
+            this.Log("MainWindow.Shuffle", "Position: {0} [{1} > {2}|{3} > {4}]"
+                , this.mediaPlayer.Position
+                , this.MusicProgress.Minimum
+                , this.mediaPlayer.Position.TotalMilliseconds
+                , this.MusicProgress.Value, this.MusicProgress.Maximum);
         }
     }
 }
