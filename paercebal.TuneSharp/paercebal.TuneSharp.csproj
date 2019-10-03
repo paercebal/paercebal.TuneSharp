@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Types\MediaPlayerState.cs" />
+    <Compile Include="Types\Utils.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -64,6 +66,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CustomControls\ClickableProgressBar.cs" />
+    <Compile Include="CustomControls\MusicPlayer.cs" />
     <Compile Include="Interfaces\IDebugOutputable.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
