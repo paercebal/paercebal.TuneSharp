@@ -6,25 +6,61 @@
         xmlns:local="clr-namespace:paercebal.TuneSharp"
         xmlns:custom="clr-namespace:paercebal.TuneSharp.CustomControls"
         mc:Ignorable="d"
-        Title="paercebal.TuneSharp" Height="200" Width="800"
+        Title="paercebal.TuneSharp" Height="500" Width="800"
         Background="#88CCFF"
         >
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="35"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="Music Directories..." Click="MenuItem_MusicDirectories_Click"/>
+<!--
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+-->
+                <Separator />
+                <MenuItem Header="_Exit" Click="MenuItem_Exit_Click" />
+            </MenuItem>
+            <MenuItem Header="Debug">
+                <MenuItem Header="Open File" Click="MenuItem_OpenMusicFile_Click" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Click="MenuItem_Help_About_Click" />
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
             <custom:MusicPlayer Grid.Column="0" x:Name="musicPlayer" />
-            <Button x:Name="OpenFileButton" Grid.Column="1" Margin="1" Click="OnOpenFileButtonClick" Content="..." ToolTip="Open File" />
+            <Button x:Name="OpenFileButton2" Grid.Column="1" Margin="1" Click="OnOpenFileButtonClick" Content="..." ToolTip="Open File" />
         </Grid>
 
-        <TextBox Grid.Row="1" x:Name="DebugTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible"/>
+        <StackPanel Grid.Row="2" Height="5" HorizontalAlignment="Stretch" Background="White" />
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+        </Grid>
+
+        <GridSplitter Grid.Row="4" Height="5" HorizontalAlignment="Stretch" />
+        
+        <TextBox Grid.Row="5" x:Name="DebugTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible"/>
 
     </Grid>
 </Window>
