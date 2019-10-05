@@ -21,10 +21,13 @@ namespace paercebal.TuneSharp
     /// </summary>
     public partial class MainWindow : Window, Interfaces.IDebugOutputable
     {
+        private Globals Globals;
         string currentFilename = @"D:\media\music\Dragonette - Merry Xmas (Says Your Text Message) [Explicit] - Copie\01 - Merry Xmas (Says Your Text Message) [Explicit] - Copie.mp3";
 
-        public MainWindow()
+        public MainWindow(Globals globals)
         {
+            this.Globals = globals;
+
             InitializeComponent();
 
             this.musicPlayer.SetDebugOutputable("MusicPlayer", this);
@@ -77,15 +80,48 @@ namespace paercebal.TuneSharp
             this.musicPlayer.Title = this.currentFilename;
         }
 
-        private void OnOpenFileButtonClick(object sender, RoutedEventArgs e)
+        private void OpenMusicFile()
         {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog();
-            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+            openFileDialog.Filter = "Music files (*.mp3,*.ogg,*.oga)|*.mp3;*.ogg;*.oga|All files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == true)
             {
                 this.SetCurrentFilename(openFileDialog.FileName);
             }
+        }
+
+        private void OnOpenFileButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.OpenMusicFile();
+        }
+
+        private void MenuItem_MusicDirectories_Click(object sender, RoutedEventArgs e)
+        {
+            var musicDirectories = new Dialogs.MusicDirectoriesWindow(new SortedSet<string>(this.Globals.MusicDirectories.Directories, this.Globals.MusicDirectories.Directories.Comparer));
+
+            if (musicDirectories.ShowDialog() == true)
+            {
+                if(this.Globals.MusicDirectories.Directories != musicDirectories.TemporaryDirectories)
+                {
+                    this.Globals.MusicDirectories.Directories = musicDirectories.TemporaryDirectories;
+                }
+            }
+        }
+
+        private void MenuItem_OpenMusicFile_Click(object sender, RoutedEventArgs e)
+        {
+            this.OpenMusicFile();
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuItem_Help_About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("paercebal.TuneSharp", "About", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
